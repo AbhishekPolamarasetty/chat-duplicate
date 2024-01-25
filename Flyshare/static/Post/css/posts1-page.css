@@ -5,17 +5,6 @@
   justify-content: center;
   /* border: 3px solid black; */
 }
-.col {
-  max-width: 40%; /* Adjust the maximum width based on your design */
-  width: 100%;
-  /* margin-bottom: 20px; Optional: Add margin for spacing between posts */
-}
-
-/* @media (min-width: 768px) {
-  .col {
-    width: calc(100% / 3); /* Ensure three posts in a row on larger screens */
-  /* }
-} */ 
 #form-control{
 margin-right: 20px;
 /* border: 3px solid black; */
@@ -47,21 +36,18 @@ display: flex;
 flex-direction: row;
 justify-content: center;
 }
-.card{
-  margin-bottom: 20px;
-}
 .custom-color{
 background-color: #581ed6;
 border: #581ed6;
 }
-.verify {
+.custom-color:hover {
+background-color: #8c66dd;
+border: #8c66dd;
+}
+.verify{
   background-color: #581ed6;
 border: #581ed6;
 }
-.verify:hover {
-  background-color: #8c66dd;
-  border: #8c66dd;
-  }
 .custom-color:hover {
 background-color: #8c66dd;
 border: #8c66dd;
@@ -253,13 +239,162 @@ color: #581ed6; /* Change color as needed */
 .back-arrow {
 margin-right: 5px;
 }
+@media (max-width: 768px) {
+    .action {
+        right: 70px;
+        top: 10px;
+        line-height: initial;
+    }
+ 
+    .action .profile {
+        width: 40px;
+        height: 40px;
+    }
+ 
+    .action .menu {
+        right: -10px;
+        width: 150px;
+        top: 100px;
+    }
+ 
+    .action .menu::before {
+        right: 15px;
+        top: -5px;
+    }
+ 
+    .action .menu h3 {
+        font-size: 14px;
+        padding: 15px 0px;
+    }
+ 
+    .action .menu h3 div {
+        font-size: 12px;
+    }
+ 
+    .action .menu ul li {
+        padding: 8px 0px;
+    }
+ 
+    .action .menu ul li img {
+        max-width: 16px;
+        margin-right: 8px;
+    }
+ 
+    .first_box {
+        min-height: 120vh;
+    }
+ 
+    .first_box a {
+        margin: 0 15px;
+    }
+ 
+    .nav {
+        height: 80px;
+        line-height: 80px;
+    }
+ 
+    .nav-logo p {
+        font-size: 20px;
+    }
+ 
+    .nav-menu ul li .link {
+        padding-bottom: 10px;
+        margin: 0 15px;
+    }
+ 
+    .nav-button .btn {
+        width: 80px;
+        height: 30px;
+        font-size: 12px;
+    }
+  }
+ 
+  /* For screens up to 480px (mobile devices) */
+  @media (max-width: 480px) {
+    .action .profile {
+        width: 30px;
+        height: 30px;
+    }
+ 
+    .action .menu {
+        width: 120px;
+        top: 90px;
+    }
+ 
+    .action .menu h3 {
+        font-size: 12px;
+        padding: 10px 0px;
+    }
+ 
+    .action .menu h3 div {
+        font-size: 10px;
+    }
+ 
+    .action .menu ul li {
+        padding: 6px 0px;
+    }
+ 
+    .action .menu ul li img {
+        max-width: 14px;
+        margin-right: 6px;
+    }
+ 
+    .first_box {
+        min-height: 130vh;
+    }
+ 
+    .first_box a {
+        margin: 0 10px;
+    }
+ 
+    .nav {
+        height: 60px;
+        line-height: 60px;
+    }
+ 
+    .nav-logo p {
+        font-size: 18px;
+    }
+ 
+    .nav-menu ul li .link {
+        padding-bottom: 8px;
+        margin: 0 10px;
+    }
+ 
+    .nav-button .btn {
+        width: 70px;
+        height: 25px;
+        font-size: 10px;
+    }
+  }
+ 
+  /* Add additional breakpoints and adjust styles as needed */
+ 
+  .main{
+    display:flex;
+    align-items: center;
+    }
+  #menu-icon{
+ 
+    font-size: 35px;
+    /* color: var(--text-color); */
+    cursor: pointer;
+    z-index: 10001;
+    display: none;
+    color: black;
+    }
+ 
+    @media(max-width: 1090px){
+        #menu-icon{
+        display: block;
+        }
+    }
 @media (max-width: 1350px) and (max-height: 865px) {
 .card-body{
   /* background-color: #fd4; */
 }
 .card-body img{
   width: 50px;
-  /* border: 3px solid black; */
   margin-left: 30px;
   margin-right: 5px;
 }
@@ -267,7 +402,6 @@ margin-right: 5px;
   /* padding-right: 30px; */
   font-size: xx-large;
   margin-left: 40px;
-  /* border: 3px solid black; */
 }
 /* .rating {
   border: 3px solid black;

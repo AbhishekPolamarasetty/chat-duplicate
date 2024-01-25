@@ -109,9 +109,10 @@ const container = document.createElement("div");
 container.classList.add("container");
  
 const row = document.createElement("div");
-row.classList.add("row");
+row.classList.add('row', 'row-cols-1', 'row-cols-sm-2', 'row-cols-md-3', 'g-3');
  
-let albumDiv = document.getElementById("albumDiv");
+const albumDiv = document.createElement('div');
+albumDiv.classList.add('album', 'py-5', 'bg-body-tertiary');
  
 // Create albumDiv if it doesn't exist
 if (!albumDiv) {
@@ -163,7 +164,7 @@ async function createCardStructure(filteredData) {
     container.classList.add("container");
  
     const row = document.createElement("div");
-    row.classList.add("row");
+    row.classList.add('row', 'row-cols-1', 'row-cols-sm-2', 'row-cols-md-3', 'g-3');
     filteredData.forEach((data, index) => {
       const col = document.createElement("div");
       col.classList.add("col");

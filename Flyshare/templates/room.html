@@ -107,8 +107,8 @@ body {
 </head>
 <body>
 
-<!-- <h2>{{room}} - {{ passenger_name }}</h2> -->
-<h2 id="dynamicHeader"></h2>
+<h2>{{room}} - FlyShareChat</h2>
+
 <div id="display">
 
 <!-- <div class="container darker">
@@ -119,25 +119,7 @@ body {
 </div>
 
 <script>
-$(document).ready(function(){
-    // Make an AJAX request to fetch passenger_name
-    $.ajax({
-        type: 'GET',
-        url: 'http://127.0.0.1:8000/postAPI/',
-        success: function(response){
-          console.log(response)
-            // Assuming the response is in JSON format with a key 'passenger_name'
-            var passengerName = response[0].passenger_name;
-            // console.log(response.user.passenger_name)
 
-            // Update the HTML with the dynamic content
-            $('#dynamicHeader').text('{{room}} - ' + passengerName);
-        },
-        error: function(response){
-            console.log('Error fetching passenger_name');
-        }
-    });
-});
 $(document).ready(function(){
 
 setInterval(function(){

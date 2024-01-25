@@ -1,0 +1,106 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="{% static 'Login/CSS/signup.css' %}">
+    <title>FLY SHARE | Login & Registration</title>
+</head>
+
+<body>
+    <div class="back-button">
+        <a href="{% url 'index' %}"  class="back-link">
+            <span class="back-arrow">&lt;</span> Back
+        </a>
+    </div>
+    <div class="wrapper">
+      
+       
+            <div class="register-container">
+                {% comment %} <form action="{% url 'register' %}" method="POST"> {% endcomment %}
+                <form action="" method="POST" onsubmit="checkPassword(event);" id="registration-form">
+                    {% csrf_token %}
+                    <div class="Top">
+                        <header>Sign Up</header>
+                    </div>
+                    <div class="two-forms">
+                        <div class="input-box">
+                            <input type="text" class="input-field" placeholder="Firstname" name="first_name" required>
+                            <i class="bx bx-user"></i>
+                        </div>
+                        <div class="input-box">
+                            <input type="text" class="input-field" placeholder="Lastname" name="last_name">
+                            <i class="bx bx-user"></i>
+                        </div>
+                    </div>
+                    <div class="input-box">
+                        <input type="text" class="input-field" placeholder="Username" name="username" required>
+                        <i class="bx bx-user"></i>
+                    </div>
+                    <div class="input-box">
+                        <input type="text" class="input-field" placeholder="Email" name="email" required>
+                        <i class="bx bx-envelope"></i>
+                    </div>
+                    <div class="input-box">
+                        <input type="password" class="input-field" placeholder="Password" name="password1" id="password" required>
+                        <i class="bx bx-lock-alt"></i>
+                
+                        <input type="password" class="input-field" placeholder="Confirm Password" name="password2" id="cnfrm-password" required>
+                        <i class="bx bx-lock-alt"></i>
+                    </div>
+                    <div id="password-error" style="color: red;"></div>
+                    <div class="input-box">
+                    <form action="{% url 'login' %}" method="get">
+                        <input type="submit" class="submit" value="Register" name="register">
+                    </form>
+                    </div>
+                </form>
+                <div class="two-col">
+                    <div class="one">
+                        <input type="checkbox" id="register-check">
+                        <label for="register-check"> Remember Me</label>
+                    </div>
+                    <div class="two">
+                        <label><a href="#">Terms & conditions</a></label>
+                    </div>
+                    <div class="bottom">
+                        <span>Have an account? <a href="{% url 'login' %}"  style="color: black;">Login</a></span>
+    
+                        
+                    </div>
+                </div>
+            </div>
+            <script>
+                function checkPassword(event) {
+                    event.preventDefault();  // Prevent form submission
+            
+                    let password = document.getElementById("password").value;
+                    let cnfrmPassword = document.getElementById("cnfrm-password").value;
+                    let errorDiv = document.getElementById("password-error");
+            
+                    if (password.length !== 0) {
+                        if (password === cnfrmPassword) {
+                            errorDiv.textContent = "";  // Clear the error message
+                            errorDiv.style.backgroundColor = "#1dcd59";
+                            document.getElementById("registration-form").submit();  // Submit the form
+                        } else {
+                            errorDiv.textContent = "Passwords don't match";
+                            errorDiv.style.backgroundColor = "#ff4d4d";
+                        }
+                    } else {
+                        errorDiv.textContent = "Password can't be empty!";
+                        errorDiv.style.backgroundColor = "#ff4d4d";
+                    }
+                }
+            </script>
+     
+    </div>
+    
+</body>
+
+</html>
+<div>{% block content %} {% endblock %}</div>

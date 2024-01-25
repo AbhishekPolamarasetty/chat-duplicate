@@ -1,0 +1,398 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chat Page</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f4f4f4;
+      }
+ 
+      .chat-container {
+        max-width: 600px;
+        margin: 20px auto;
+        background-color: #fff;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+      }
+ 
+      .profile {
+        background-color: #4caf50;
+        color: #fff;
+        padding: 10px;
+        text-align: center;
+        display: flex;
+        align-items: center;
+      }
+ 
+      .profile img {
+        max-width: 50px;
+        border-radius: 50%;
+        margin-right: 10px;
+      }
+ 
+      .chat-messages {
+        padding: 10px;
+        overflow-y: auto;
+        max-height: 300px;
+      }
+ 
+      .user-message,
+      .other-message {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+      }
+ 
+      .user-message img,
+      .other-message img {
+        max-width: 40px;
+        border-radius: 50%;
+        margin-right: 10px;
+      }
+ 
+      .message-text {
+        padding: 8px;
+        border-radius: 5px;
+      }
+ 
+      .message-input-container {
+        display: flex;
+        flex-wrap: wrap; /* Allow items to wrap to the next line on smaller screens */
+        justify-content: space-between; /* Add space between items */
+      }
+ 
+      .message-input {
+        flex: 1;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        margin: 10px;
+      }
+ 
+      .send-button {
+        flex-basis: calc(30% - 20px); /* Adjust button width */
+        background-color: #4caf50;
+        color: #fff;
+        padding: 10px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+      .camera-icon {
+        cursor: pointer;
+        font-size: 20px;
+        color: #4caf50;
+        margin: 10px;
+      }
+ 
+      .image-input {
+        flex-basis: 100%; /* Make image input full width */
+        margin: 10px;
+      }
+ 
+      .user-list {
+        width: 100%;
+        margin: 20px;
+        overflow-y: auto;
+        border-right: 1px solid #ddd;
+      }
+ 
+      .user-list-item {
+        padding: 15px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+      }
+ 
+      .user-list-item img {
+        max-width: 30px;
+        border-radius: 50%;
+        margin-right: 10px;
+      }
+ 
+      .user-list-item:hover {
+        background-color: #f0f0f0;
+      }
+ 
+      .chat-container,
+      .user-list {
+        flex: 1;
+      }
+ 
+      @media (max-width: 768px) {
+        .message-input {
+          flex-basis: calc(
+            100% - 20px
+          ); /* Adjust input width on smaller screens */
+        }
+ 
+        .send-button,
+        .image-input {
+          flex-basis: 100%; /* Make button and image input full width on smaller screens */
+        }
+      }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <!-- Include jQuery -->
+  </head>
+  <body>
+    <div class="user-list" id="userList">
+      <!-- userId = {{ user.username }} -->
+      <!-- <div class="user-list-item" onclick="openChat('user1', 'User 1')">
+        <img src=" https://www.shareicon.net/data/512x512/2016/09/15/829452_user_512x512.png" >
+        {{user.username}}
+    </div>
+    <div class="user-list-item" onclick="openChat('user2', 'User 2')">
+        <img src=" https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8dXNlciUyMHByb2ZpbGV8ZW58MHx8MHx8fDA%3D" >
+        {{user.username}}
+    </div>
+    <div class="user-list-item" onclick="openChat('user3', 'User 3')">
+        <img src=" https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTQEZrATmgHOi5ls0YCCQBTkocia_atSw0X-Q&usqp=CAU" >
+        {{user.username}}
+    </div> -->
+      <!-- Add more users as needed -->
+    </div>
+ 
+    <div class="chat-container">
+      <div class="profile" id="selectedUserProfile">
+        <img
+          src=" https://www.shareicon.net/data/512x512/2016/09/15/829452_user_512x512.png"
+        />
+        {{userName}}
+      </div>
+ 
+      <div class="chat-messages" id="chatMessages">
+        <!-- Messages will be displayed here -->
+      </div>
+ 
+      <!-- <div class="message-input-container">
+        <input type="file" class="image-input" accept="image/*" id="imageInput" />
+        <textarea class="message-input" id="messageInput" placeholder="Type your message..."></textarea>
+        <button class="send-button" onclick="sendMessage()">Send</button>
+    </div> -->
+      <div class="message-input-container">
+        <label
+          for="imageInput"
+          class="camera-icon"
+          onclick="triggerImageInput()"
+        >
+          &#128247;
+          <!-- Camera icon Unicode -->
+        </label>
+        <input
+          type="file"
+          class="image-input"
+          accept="image/*"
+          id="imageInput"
+          onchange="displaySelectedImage()"
+        />
+        <textarea
+          class="message-input"
+          id="messageInput"
+          placeholder="Type your message..."
+        ></textarea>
+        <button class="send-button" onclick="sendMessage()">Send</button>
+      </div>
+    </div>
+ 
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const userId = urlParams.get("userId");
+ 
+        // Fetch user list data and update the user list dynamically
+        $.ajax({
+          url: `http://127.0.0.1:8000/chat/messages/${userId}/`,
+          method: "GET",
+          success: function (data) {
+            // Update user list
+            data.forEach((user) => {
+              updateUserChatList(user.id, user.username);
+            });
+ 
+            // Rest of the code to initialize the userChatList array
+            const userName = urlParams.get("userName");
+            userChatList.push({ userId, userName });
+ 
+            selectUserInList(userName);
+          },
+          error: function (error) {
+            console.error("Error fetching user list:", error);
+          },
+        });
+      });
+      const userChatList = [];
+ 
+      function updateUserChatList(userId, userName) {
+        console.log(
+          `Updating user chat list with userId: ${userId}, userName: ${userName}`
+        );
+        const userList = document.getElementById("userList");
+ 
+        // Check if the user is already in the list
+        const userExists = userChatList.some((user) => user.userId === userId);
+ 
+        if (!userExists) {
+          // Create a new user list item
+          const userListItem = document.createElement("div");
+          userListItem.classList.add("user-list-item");
+          userListItem.dataset.userId = userId;
+ 
+          // Add user details to the list item
+          //       userListItem.innerHTML = `
+          //   <img src="user_profile_image_url" alt="${userName}" class="profile-image">
+          //   <span class="user-name">${userName}</span>
+          // `;
+          const profileImage = document.createElement("img");
+          profileImage.src = "user_profile_image_url"; // Replace with actual URL
+          profileImage.alt = userName;
+          profileImage.classList.add("profile-image");
+ 
+          // Create user name span
+          const userNameSpan = document.createElement("span");
+          userNameSpan.classList.add("user-name");
+          userNameSpan.textContent = userName;
+ 
+          userListItem.appendChild(profileImage);
+          userListItem.appendChild(userNameSpan);
+ 
+          // Add a click event listener to handle user selection or chat initiation
+          userListItem.addEventListener("click", function () {
+            // Perform actions when the user is selected or chat initiated
+            openChat(userId, userName);
+          });
+ 
+          // Append the new user list item to the user list container
+          userList.appendChild(userListItem);
+ 
+ 
+          // Add the user to the global userChatList
+          userChatList.push({ userId, userName });
+        }
+      }
+ 
+      function selectUserInList(userName) {
+ 
+  const userNameElements = document.querySelectorAll('.user-list-item .user-name');
+ 
+  for (const element of userNameElements) {
+    if (element.textContent === userName) {
+      element.closest(".user-list-item").click();
+      return;
+    }
+  }
+ 
+}
+ 
+      // JavaScript code for handling chat functionality
+      function triggerImageInput() {
+        document.getElementById("imageInput").click();
+      }
+ 
+      function displaySelectedImage() {
+        var imageInput = document.getElementById("imageInput");
+        var selectedImageContainer = document.getElementById(
+          "selectedImageContainer"
+        );
+ 
+        if (imageInput.files.length > 0) {
+          var selectedImage = document.createElement("img");
+          selectedImage.src = URL.createObjectURL(imageInput.files[0]);
+          selectedImageContainer.innerHTML = "";
+          selectedImageContainer.appendChild(selectedImage);
+        }
+      }
+      var selectedUser = null;
+ 
+      function openChat(userId, userName) {
+        selectedUser = { id: userId, name: userName };
+        var selectedUserProfile = document.getElementById(
+          "selectedUserProfile"
+        );
+        var profileImage = selectedUserProfile.querySelector("img");
+ 
+        // Map user IDs to profile image URLs
+        var profileImages = {
+          user1:
+            "https://www.shareicon.net/data/512x512/2016/09/15/829452_user_512x512.png",
+          user2:
+            "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8dXNlciUyMHByb2ZpbGV8ZW58MHx8MHx8fDA%3D", // Replace with the correct image URL for user2 -->
+          user3:
+            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTQEZrATmgHOi5ls0YCCQBTkocia_atSw0X-Q&usqp=CAU", // Replace with the correct image URL for user3
+          // Add more users as needed
+        };
+ 
+        // Update profile image and username
+        profileImage.src = profileImages[userId] || "default_image_url.png"; // Use a default image if not found
+        profileImage.alt = userName; // Add alt attribute for accessibility
+        selectedUserProfile.innerHTML = ""; // Clear previous content
+        selectedUserProfile.appendChild(profileImage);
+ 
+        var userNameElement = document.createElement("span");
+        userNameElement.textContent = userName;
+        selectedUserProfile.appendChild(userNameElement);
+ 
+        document.getElementById("chatMessages").innerHTML = ""; // Clear previous messages
+      }
+ 
+      function sendMessage() {
+        var messageInput = document.getElementById("messageInput");
+        var imageInput = document.getElementById("imageInput");
+        var chatMessages = document.getElementById("chatMessages");
+ 
+        // Get the message text from the input
+        var messageText = messageInput.value.trim();
+ 
+        // Get the selected image file
+        var imageFile = imageInput.files[0];
+ 
+        // Display the user's message in the chat
+        if (messageText !== "" || imageFile) {
+          var userMessage = document.createElement("div");
+          userMessage.className = "user-message";
+ 
+          // Display text message
+          if (messageText !== "") {
+            userMessage.innerHTML =
+              '<div class="message-text">You: ' + messageText + "</div>";
+          }
+ 
+          // Display image
+          if (imageFile) {
+            var imageElement = document.createElement("img");
+            imageElement.src = URL.createObjectURL(imageFile);
+            userMessage.appendChild(imageElement);
+          }
+ 
+          chatMessages.appendChild(userMessage);
+ 
+          // Simulate receiving a message from the other user (you can replace this with actual server communication)
+          var otherMessage = document.createElement("div");
+          otherMessage.className = "other-message";
+          otherMessage.innerHTML =
+            '<img src=" https://www.shareicon.net/data/512x512/2016/09/15/829452_user_512x512.png" ><div class="message-text">Thanks! I\'m doing well.</div>';
+          chatMessages.appendChild(otherMessage);
+ 
+          // Clear the message input and image input
+          messageInput.value = "";
+          imageInput.value = "";
+ 
+          // Scroll to the bottom of the chat
+          chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+        if (!selectedUser) {
+          alert("Please select a user to chat with.");
+          return;
+        }
+      }
+    </script>
+  </body>
+</html>
+ 

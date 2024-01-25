@@ -1,0 +1,197 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Post Form</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'Post/css/bootstrap.min.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'Post/css/fontawesome-all.min.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'Post/css/iofrm-style.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'Post/css/iofrm-theme30.css' %}" />
+  </head>
+  <body>
+    <div class="form-body on-top-mobile">
+      <div class="website-logo">
+        <a href="{% url 'index' %}">
+          <div class="logo">
+            <span>✈️ FlyShare</span>
+          </div>
+        </a>
+      </div>
+      <div class="row">
+        <div class="img-holder">
+          <div class="bg"></div>
+          <div class="info-holder simple-info">
+            <div class="mb-5">
+              <div class="type-animation">
+                <h2 class="mb-2 animated">FlyShare.com</h2>
+              </div>
+              <h3 class="mb-4">
+                <i class="font-weight-light"
+                  >Innovative Platform for Shared Luggage Solutions!</i
+                >
+              </h3>
+            </div>
+            <div>
+              <p>
+                Your travel companion for hassle-free journeys. Seamlessly
+                connect with fellow passengers to share luggage space and
+                mitigate excess baggage charges.
+              </p>
+            </div>
+          </div>
+         
+        </div>
+        <div class="form-holder">
+          <div class="form-content">
+            <div class="form-items">
+              <form  method="post">
+                <!-- {% csrf_token %}
+              <form class="container-custom-padding" method="POST"> -->
+                {% csrf_token %}
+                <div class="row">
+                  <div class="col-12 col-sm-6">
+                    <input
+                      type="text"
+                      class="form-control"
+                      placeholder="Passenger name"
+                      name="PassengerName"
+                      required
+                    />
+                  </div>
+                  <div class="col-12 col-sm-6">
+                    <input
+                      type="date"
+                      class="form-control"
+                      placeholder="Departure Date"
+                      name = "DateOfJourney"
+                      required
+                    />
+                  </div>
+                  <div class="col-12">
+                  
+                    <div class="gender-options">
+                      <div>
+                        <input
+                          type="radio"
+                          id="male"
+                          name="gender"
+                          value="male"
+                        />
+                        <label for="male">Male</label>
+                      </div>
+                      <div>
+                        <input
+                          type="radio"
+                          id="female"
+                          name="gender"
+                          value="female"
+                        />
+                        <label for="female">Female</label>
+                      </div>
+                      <div>
+                        <input
+                          type="radio"
+                          id="other"
+                          name="gender"
+                          value="other"
+                        />
+                        <label for="other">Other</label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-12 col-sm-6">
+                    <input
+                      type="text"
+                      class="form-control"
+                      placeholder="Flight number"
+                      name="FlightNumber"
+                      required
+                    />
+                  </div>
+                  <div class="col-12 col-sm-6">
+                    <input
+                      type="text"
+                      class="form-control"
+                      placeholder="PNR number"
+                      name="PNRNumber"
+                      required
+                    />
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-12 col-sm-6">
+                    <input
+                      type="text"
+                      class="form-control"
+                      placeholder="Travelling from"
+                      id="cityInputFrom"
+                      list="citiesListFrom"
+                      name = "source"
+                      required
+                    />
+                  </div>
+                  <div class="col-12 col-sm-6">
+                    <input
+                      type="text"
+                      class="form-control"
+                      placeholder="Travelling to"
+                      id="cityInputTo"
+                      list="citiesListTo"
+                      name = "destination"
+                      required
+                    />
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-12 col-sm-6">
+                    <input
+                      type="text"
+                      class="form-control"
+                      placeholder="Available free space in kgs"
+                      name="BaggageSpace"
+                      required
+                    />
+                  </div>
+                </div>
+
+                <div class="row top-padding">
+                  <div class="col-12 col-sm-6">
+                    <input type="checkbox" id="chk1" name="checkbox" required />
+                    <label for="chk1">
+                        I agree on <a href="#">terms & conditions</a>
+                    </label>
+                  </div>
+                  <div class="col-12 col-sm-6">
+                    <div class="form-button text-right">
+                      <button
+                        id="submit"
+                        type="submit"
+                        class="ibtn less-padding"
+                      >
+                        Submit
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- <script>
+      var indexUrl = "{% url 'get-post' %}";
+  </script> -->
+    <script src="{% static 'Post/js/jquery.min.js' %}"></script>
+    <script src="{% static 'Post/js/popper.min.js' %}"></script>
+    <script src="{% static 'Post/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'Post/js/main.js' %}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  </body>
+</html>

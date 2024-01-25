@@ -1,0 +1,73 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<link rel="stylesheet" href="{% static 'Login/CSS/change.css' %}">
+    </head>
+    <body>
+<div class="container">
+	<div class="row">
+		<div class="col-sm-4">
+		    
+		    <label>Current Password</label>
+		    <div class="form-group pass_show"> 
+                <input type="password" value="faisalkhan@123" class="form-control" placeholder="Current Password"> 
+            </div> 
+		       <label>New Password</label>
+            <div class="form-group pass_show"> 
+                <input type="password" value="faisal.khan@123" class="form-control" placeholder="New Password"> 
+            </div> 
+		       <label>Confirm Password</label>
+            <div class="form-group pass_show"> 
+                <input type="password" value="faisal.khan@123" class="form-control" placeholder="Confirm Password"> 
+            </div> 
+            
+		</div>  
+	</div>
+    <div>{% block content %} {% endblock %}</div>
+</div>
+<script>
+      
+$(document).ready(function(){
+    $('.pass_show').append('<span class="ptxt">Show</span>');  
+    });
+      
+    
+    $(document).on('click','.pass_show .ptxt', function(){ 
+    
+    $(this).text($(this).text() == "Show" ? "Hide" : "Show"); 
+    
+    $(this).prev().attr('type', function(index, attr){return attr == 'password' ? 'text' : 'password'; }); 
+    
+    });  
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Get the link element
+        const changePasswordLink = document.querySelector('#change-password-link');
+
+        // Add click event listener
+        changePasswordLink.addEventListener('click', function (event) {
+            event.preventDefault(); // Prevent default link behavior
+
+            // Fetch the change password page content
+            fetch('{% url "change_password_page" %}')
+                .then(response => response.text())
+                .then(html => {
+                    // Replace the content of a target element with the fetched HTML
+                    const targetElement = document.getElementById('content-container');
+                    if (targetElement) {
+                        targetElement.innerHTML = html;
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching change password page:', error);
+                });
+        });
+    });
+</script>
+</body>
+</html>

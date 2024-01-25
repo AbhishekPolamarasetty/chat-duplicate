@@ -1,0 +1,146 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="{% static 'Post/css/posts1-page.css' %}" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
+    />
+  </head>
+  <body>
+    <!-- current user = {{ user.id }} -->
+    <div class="post-container">
+      <div class="header">
+        <div class="back-button">
+          <a href="{% url 'get-post' %}"class="back-link">
+            <span class="back-arrow">&lt;</span>Back
+          </a>
+        </div>
+        <div class="col-12 col-sm-2" id="form-control">
+          <input
+            type="text"
+            class="form-control"
+            name="flight-number"
+            placeholder="Flight number"
+          />
+        </div>
+        <div class="col-12 col-sm-2" id="form-control">
+          <input
+            type="text"
+            class="form-control"
+            name="travelling-from"
+            placeholder="Travelling from"
+            id="cityInputFrom"
+            list="citiesListFrom"
+          />
+        </div>
+        <div class="col-12 col-sm-2" id="form-control">
+          <input
+            type="text"
+            class="form-control"
+            name="travelling-to"
+            placeholder="Travelling to"
+            id="cityInputTo"
+            list="citiesListTo"
+          />
+        </div>
+        <div class="col-12 col-sm-2" id="form-control">
+          <input
+            type="date"
+            name="date-of-journey"
+            class="form-control"
+            placeholder="Departure Date"
+          />
+        </div>
+        <div class="action">
+          <div class="profile" onclick="menuToggle();">
+            <img src="{% static 'Post/images/pro.png.png' %}" alt="" />
+          </div>
+
+          <div class="menu">
+            <h3>User Account</h3>
+            <ul>
+              <li>
+                <span class="material-icons icons-size">person</span>
+                <a href="#">My Profile</a>
+              </li>
+              <li>
+                <span class="material-icons icons-size">mode</span>
+                <a href="#">Edit Account</a>
+              </li>
+              <li>
+                <span class="material-icons icons-size">logout</span>
+                <a href="{% url 'index' %}">Log out</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="submit-button">
+        <button type="button" class="btn btn-success custom-color" id="verification" onclick="handleSubmit();">
+          Submit
+          
+        </button>
+      </div>
+    </div>
+
+    <script src="{% static 'Post/js/jquery.min.js' %}"></script>
+    <script src="{% static 'Post/js/popper.min.js' %}"></script>
+    <script src="{% static 'Post/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'Post/js/posts1-page.js' %}"></script>
+    <script>
+      const currentUserID = "{{ user.id }}";
+      var res;
+    
+      function handleSubmit() {
+        // Get the values from the input fields
+        var flightNumber = document.querySelector('input[name="flight-number"]').value;
+        var dateOfJourney = document.querySelector('input[name="date-of-journey"]').value;
+        var source = document.querySelector('input[name="travelling-from"]').value;
+        var destination = document.querySelector('input[name="travelling-to"]').value;
+
+    // Fetch data based on user input
+    fetchData(flightNumber, source, destination, dateOfJourney)
+      .then(result => {
+        res = result;
+        console.log(res);
+
+        // Filter the posts based on flightNumber, source, destination, and dateOfJourney
+        const filteredData = Array.from(new Set(res.filter(data  => {
+          const flightNumberMatch = data.flight_number.toLowerCase().includes(flightNumber.toLowerCase());
+          const sourceMatch = data.source.toLowerCase().includes(source.toLowerCase());
+          const destinationMatch = data.destination.toLowerCase().includes(destination.toLowerCase());
+          const dateOfJourneyMatch = data.date_of_journey.includes(dateOfJourney);
+
+          return flightNumberMatch && sourceMatch && destinationMatch && dateOfJourneyMatch;
+        })));
+
+        // Call the function to create and display the filtered card structure
+        createCardStructure(filteredData);
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+  } 
+     
+</script>
+  </body>
+</html>
